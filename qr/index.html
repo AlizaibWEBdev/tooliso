@@ -4,15 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="google-site-verification" content="UsarDUb_XMqRMNpiRGlFmlva9-Gj89ZMEjoJKQY-KXo" />
-    <!-- link favicon -->
-    <link rel="shortcut icon" href="../public/favicon.jpg" type="image/x-icon">
+    <link rel="shortcut icon" href="../download.png" type="image/x-icon">
     <meta name="google-adsense-account" content="ca-pub-3515940925007451">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
-        content="Tooliso offers powerful free online tools including QR code generators, barcode scanners, file converters and more. No downloads required. Fast and easy to use.">
+        content="Fee no Signup QR Code Generator. Create and download QR codes for free without any registration. Generate QR codes for URLs, text, and more.">
     <meta name="keywords"
-        content="best free QR code generator, online barcode scanner, fastest file converter, free online tools, utility tools, no registration required">
-    <title>Tooliso - Free Online Utility Tools | QR Code Generator, Barcode Scanner</title>
+        content="Free Qr, QR code generator, QR code scanner, QR code maker, QR code reader, QR code creator, QR code download, QR code image, QR code link, QR code text, QR code URL">
+    <meta name="author" content="Tooliso">
+    <title>
+        Free no Signup QR Code Generator | Tooliso
+    </title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         .nav-links.active {
@@ -554,7 +556,8 @@
         <div class="container">
             <nav>
                 <a href="index.html" class="logo">
-                    <img src="public/logo.jpg" width="100px" alt="">
+                    <img src="../public/logo.jpg" width="100px" alt="Tooliso Logo">
+                    
                 </a>
                 <ul class="nav-links">
                     <li><a href="#features">Tools</a></li>
@@ -570,18 +573,111 @@
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="container">
-            <h1>Powerful & Free Online Tools at Your Fingertips</h1>
-            <p>Tooliso provides a collection of essential utilities to simplify your digital tasks. Generate QR codes,
-                scan barcodes, convert files, and more - all for free with no registration required.</p>
-            <a href="#features" class="btn">Explore Tools Now</a>
-        </div>
+    <style>
+        #qr {
+            
+            padding: 50px 0;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #f0f0f0;
+        }
 
-    </section>
+        #qr h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
 
-    <!-- Features Section -->
+        #qr textarea {
+            width: 95%;
+            max-width: 800px;
+            height: 200px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #6a6a6a;
+            background-color: white;
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        #qr button {
+            padding: 10px 20px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #qr button:hover {
+            background-color: var(--primary-dark);
+        }
+
+        #qr-code-genrator-result img {
+            margin-top: 20px;
+        }
+       
+        #qr p{
+            font-size: 1.2rem;
+            color: var(--gray);
+            max-width: 700px;
+            margin: 0 auto 30px;
+            opacity: 0.9;
+        }
+        .hidden {
+            display: none !important;
+        }
+    </style>
+
+    <!-- qr code genrator  using https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=mynameisalizaib api -->
+     <section id="qr">
+        <!-- seo optimze title and description  -->
+        <h1>QR Code Generator</h1>
+        <p>Generate your own QR codes for free! Enter any text or link and download your QR code image.
+        Simply enter the text or URL you want to encode, and click "Generate".
+        Once generated, you can download the QR code image for your use.
+        It's that easy!</p>
+
+        <textarea name="" id="" placeholder="enter any text or link"></textarea>
+        <button id="generate">Generate</button>
+            <div id="qr-code-genrator-result">
+
+            </div>
+         <button class="hidden download-qr">download Qr Image</button>   
+     </section>
+     <script>
+        document.getElementById("generate").addEventListener("click", function() {
+            var text = document.querySelector("textarea").value;
+            var qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=" + encodeURIComponent(text);
+            var qrCodeImage = document.createElement("img");
+            qrCodeImage.src = qrCodeUrl;
+            qrCodeImage.alt = "QR Code";
+            document.getElementById("qr-code-genrator-result").appendChild(qrCodeImage);
+            document.querySelector(".download-qr").classList.remove("hidden");
+            document.querySelector(".download-qr").addEventListener("click", function() {
+                // use fetch to download the image
+                fetch(qrCodeUrl)
+                    .then(response => response.blob())
+                    .then(blob => {
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement("a");
+                        a.href = url;
+                        a.download = "qr-code.png";
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                        URL.revokeObjectURL(url);
+                    })
+                    .catch(error => console.error("Error downloading QR code:", error));
+                
+
+
+            });
+        });
+     </script>
+
     <section class="section" id="features">
         <div class="container">
           <div class="section-title">
@@ -603,148 +699,8 @@
       </section>
       
 
-    <!-- How It Works Section -->
-    <section class="section" id="how-it-works">
-        <div class="container">
-            <div class="section-title">
-                <h2>How It Works</h2>
-                <p>Using our tools is simple and straightforward</p>
-            </div>
-            <div class="steps">
-                <div class="step">
-                    <div class="step-number">1</div>
-                    <h3>Choose Your Tool</h3>
-                    <p>Select from our collection of free online utilities that fits your needs.</p>
-                </div>
-                <div class="step">
-                    <div class="step-number">2</div>
-                    <h3>Input Your Data</h3>
-                    <p>Enter the required information or upload your file depending on the tool.</p>
-                </div>
-                <div class="step">
-                    <div class="step-number">3</div>
-                    <h3>Get Instant Results</h3>
-                    <p>Download or copy your result immediately with no waiting time.</p>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- Benefits Section -->
-    <section class="section benefits" id="benefits">
-        <div class="container">
-            <div class="section-title">
-                <h2>Why Choose Tooliso?</h2>
-                <p>We're committed to providing the best free online tool experience</p>
-            </div>
-            <div class="benefit-grid">
-                <div class="benefit-item">
-                    <div class="benefit-icon">
-                        <i class="fas fa-bolt"></i>
-                    </div>
-                    <div class="benefit-content">
-                        <h3>Lightning Fast</h3>
-                        <p>Our tools process your requests in seconds, saving you valuable time.</p>
-                    </div>
-                </div>
-                <div class="benefit-item">
-                    <div class="benefit-icon">
-                        <i class="fas fa-lock"></i>
-                    </div>
-                    <div class="benefit-content">
-                        <h3>100% Secure</h3>
-                        <p>All processing happens in your browser. We don't store your data.</p>
-                    </div>
-                </div>
-                <div class="benefit-item">
-                    <div class="benefit-icon">
-                        <i class="fas fa-dollar-sign"></i>
-                    </div>
-                    <div class="benefit-content">
-                        <h3>Completely Free</h3>
-                        <p>No hidden charges or premium tiers. All tools are free forever.</p>
-                    </div>
-                </div>
-                <div class="benefit-item">
-                    <div class="benefit-icon">
-                        <i class="fas fa-desktop"></i>
-                    </div>
-                    <div class="benefit-content">
-                        <h3>No Installation</h3>
-                        <p>Access all tools directly from your browser on any device.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Testimonials Section -->
-    <section class="section testimonials" id="testimonials">
-        <div class="container">
-            <div class="section-title">
-                <h2>What Our Users Say</h2>
-                <p>Trusted by thousands of users worldwide</p>
-            </div>
-            <div class="testimonial-grid">
-                <div class="testimonial-card">
-                    <div class="testimonial-text">
-                        Tooliso's QR code generator saved me so much time when I needed to create codes for my
-                        restaurant menu. The best free online tool I've found!
-                    </div>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">
-                            <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Sarah J.">
-                        </div>
-                        <div class="author-info">
-                            <h4>Sarah J.</h4>
-                            <p>Small Business Owner</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-card">
-                    <div class="testimonial-text">
-                        As a teacher, I use the file converter almost daily to prepare materials for my students. It's
-                        reliable and works perfectly every time.
-                    </div>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">
-                            <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Michael T.">
-                        </div>
-                        <div class="author-info">
-                            <h4>Michael T.</h4>
-                            <p>High School Teacher</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-card">
-                    <div class="testimonial-text">
-                        The barcode scanner works better than most paid apps I've tried. I use it for inventory
-                        management and it's been a game changer.
-                    </div>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">
-                            <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Priya K.">
-                        </div>
-                        <div class="author-info">
-                            <h4>Priya K.</h4>
-                            <p>Retail Manager</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="cta">
-        <div class="container">
-            <h2>Ready to Simplify Your Workflow?</h2>
-            <p>Join thousands of satisfied users who rely on Tooliso for their daily tasks. No registration required -
-                start using our tools right away!</p>
-            <a href="#features" class="btn btn-light">Get Started Now</a>
-        </div>
-    </section>
-
+   
     <!-- Footer -->
     <footer>
         <div class="container">
@@ -874,8 +830,8 @@
                 icon: '<i class="fas fa-qrcode"></i>',
                 title: 'QR Code Generator',
                 desc: 'Create custom QR codes for URLs, contact info, WiFi access and more in seconds.',
-                link: '/qr',
-                btnText: 'Generate Now',
+                link: '#',
+                btnText: 'Coming Soon',
             },
             {
                 icon: '<i class="fas fa-file-alt"></i>',
