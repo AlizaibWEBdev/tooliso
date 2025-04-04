@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="shortcut icon" href="../public/favicon.jpg" type="image/x-icon">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Privacy Policy - ToolISO</title>
+</head>
+<style>
+    .nav-links.active {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 80px;
+        left: 0;
+        width: 100%;
+        background-color: white;
+        padding: 20px;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        z-index: 99;
+    }
+
+    .nav-links.active li {
+        margin: 15px 0;
+    }
+
+    .mobile-menu.close {
+        display: block;
+    }
+
+    .mobile-menu.close i::before {
+        content: "\f00d";
+        /* FontAwesome close icon */
+    }
+
+    /* Overlay for mobile menu */
+    .overlay {
+        position: fixed;
+        top: 80px;
+        left: 0;
+        width: 100%;
+        height: calc(100% - 80px);
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 98;
+        display: none;
+    }
+
+    .overlay.active {
+        display: block;
+    }
+
+    @media (min-width: 769px) {
+        .nav-links {
+            display: flex !important;
+        }
+
+        .mobile-menu {
+            display: none !important;
+        }
+
+        .overlay {
+            display: none !important;
+        }
+    }
+
+    :root {
+        --primary: #4361ee;
+        --primary-dark: #3a56d4;
+        --secondary: #3f37c9;
+        --light: #f8f9fa;
+        --dark: #212529;
+        --gray: #6c757d;
+        --light-gray: #e9ecef;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+        line-height: 1.6;
+        color: var(--dark);
+        background-color: #fff;
+    }
+
+    .container {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    /* Header */
+    header {
+        background-color: #fff;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
+
+    nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 0;
+    }
+
+    .logo {
+        font-size: 24px;
+        font-weight: 700;
+        color: var(--primary);
+        text-decoration: none;
+    }
+
+    .logo span {
+        color: var(--secondary);
+    }
+
+    .nav-links {
+        display: flex;
+        list-style: none;
+    }
+
+    .nav-links li {
+        margin-left: 30px;
+    }
+
+    .nav-links a {
+        text-decoration: none;
+        color: var(--dark);
+        font-weight: 500;
+        transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+        color: var(--primary);
+    }
+
+    .mobile-menu {
+        display: none;
+        font-size: 24px;
+        cursor: pointer;
+    }
+
+    /* Hero Section */
+    .hero {
+
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        flex-direction: column-reverse;
+        padding: 80px 0;
+        gap: 50px;
+        flex-wrap: wrap;
+        text-align: center;
+        background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+    }
+
+    .hero h1 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+        color: var(--dark);
+    }
+
+    .hero p {
+        font-size: 1.2rem;
+        color: var(--gray);
+    }
+
+    .btn {
+        display: inline-block;
+        background-color: var(--primary);
+        color: white;
+        padding: 12px 30px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: background-color 0.3s, transform 0.3s;
+        border: none;
+        cursor: pointer;
+        font-size: 1rem;
+    }
+
+    .btn:hover {
+        background-color: var(--primary-dark);
+        transform: translateY(-2px);
+    }
+
+    .btn-outline {
+        background-color: transparent;
+        border: 2px solid var(--primary);
+        color: var(--primary);
+        margin-left: 15px;
+    }
+
+    .btn-outline:hover {
+        background-color: var(--primary);
+        color: white;
+    }
+
+    /* Features Section */
+    .section {
+        padding: 80px 0;
+    }
+
+    .section-title {
+        text-align: center;
+        margin-bottom: 50px;
+    }
+
+    .section-title h2 {
+        font-size: 2rem;
+        color: var(--dark);
+        margin-bottom: 15px;
+    }
+
+    .section-title p {
+        color: var(--gray);
+        max-width: 700px;
+        margin: 0 auto;
+    }
+
+    .features {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+    }
+
+    .feature-card {
+        border: 1px solid gray;
+        background-color: white;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        padding: 30px;
+        text-align: center;
+        position: relative;
+        height: 410px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .feature-card a {
+        position: absolute;
+        bottom: 15px;
+    }
+
+    .feature-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .feature-icon {
+        font-size: 40px;
+        color: var(--primary);
+        margin-bottom: 20px;
+    }
+
+    .feature-card h3 {
+        font-size: 1.3rem;
+        margin-bottom: 15px;
+        color: var(--dark);
+    }
+
+    .feature-card p {
+        color: var(--gray);
+        margin-bottom: 20px;
+    }
+
+    /* How It Works */
+    .steps {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        margin-top: 50px;
+    }
+
+    .step {
+        flex: 1;
+        min-width: 250px;
+        text-align: center;
+        padding: 0 20px;
+        position: relative;
+        margin-bottom: 30px;
+    }
+
+    .step-number {
+        width: 60px;
+        height: 60px;
+        background-color: var(--primary);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        font-weight: 700;
+        margin: 0 auto 20px;
+    }
+
+    .step h3 {
+        font-size: 1.2rem;
+        margin-bottom: 15px;
+        color: var(--dark);
+    }
+
+    .step p {
+        color: var(--gray);
+    }
+
+    .step:not(:last-child)::after {
+        content: '';
+        position: absolute;
+        top: 30px;
+        right: -50px;
+        width: 100px;
+        height: 2px;
+        background-color: var(--light-gray);
+    }
+
+    /* Benefits */
+    .benefits {
+        background-color: var(--light);
+    }
+
+    .benefit-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+    }
+
+    .benefit-item {
+        display: flex;
+        align-items: flex-start;
+    }
+
+    .benefit-icon {
+        font-size: 24px;
+        color: var(--primary);
+        margin-right: 20px;
+        margin-top: 5px;
+    }
+
+    .benefit-content h3 {
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+        color: var(--dark);
+    }
+
+    .benefit-content p {
+        color: var(--gray);
+    }
+
+    /* Testimonials */
+    .testimonials {
+        background-color: white;
+    }
+
+    .testimonial-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+    }
+
+    .testimonial-card {
+        background-color: white;
+        border-radius: 10px;
+        padding: 30px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    .testimonial-text {
+        font-style: italic;
+        color: var(--dark);
+        margin-bottom: 20px;
+        position: relative;
+    }
+
+    .testimonial-text::before {
+        content: '"';
+        font-size: 60px;
+        color: var(--light-gray);
+        position: absolute;
+        top: -20px;
+        left: -15px;
+        z-index: -1;
+    }
+
+    .testimonial-author {
+        display: flex;
+        align-items: center;
+    }
+
+    .author-avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: var(--light-gray);
+        margin-right: 15px;
+        overflow: hidden;
+    }
+
+    .author-info h4 {
+        font-size: 1rem;
+        color: var(--dark);
+        margin-bottom: 5px;
+    }
+
+    .author-info p {
+        font-size: 0.9rem;
+        color: var(--gray);
+    }
+
+    /* CTA Section */
+    .cta {
+        text-align: center;
+        padding: 80px 0;
+        background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        color: white;
+    }
+
+    .cta h2 {
+        font-size: 2rem;
+        margin-bottom: 20px;
+    }
+
+    .cta p {
+        max-width: 700px;
+        margin: 0 auto 30px;
+        opacity: 0.9;
+    }
+
+    .btn-light {
+        background-color: white;
+        color: var(--primary);
+    }
+
+    .btn-light:hover {
+        background-color: rgba(255, 255, 255, 0.9);
+        color: var(--primary);
+    }
+
+    /* Footer */
+    footer {
+        background-color: var(--dark);
+        color: white;
+        padding: 60px 0 20px;
+    }
+
+    .footer-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 40px;
+        margin-bottom: 40px;
+    }
+
+    .footer-col h3 {
+        font-size: 1.2rem;
+        margin-bottom: 20px;
+        color: white;
+    }
+
+    .footer-links {
+        list-style: none;
+    }
+
+    .footer-links li {
+        margin-bottom: 10px;
+    }
+
+    .footer-links a {
+        color: var(--gray);
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+
+    .footer-links a:hover {
+        color: white;
+    }
+
+    .social-links {
+        display: flex;
+        gap: 15px;
+    }
+
+    .social-links a {
+        color: white;
+        font-size: 20px;
+        transition: color 0.3s;
+    }
+
+    .social-links a:hover {
+        color: var(--primary);
+    }
+
+    .footer-bottom {
+        text-align: center;
+        padding-top: 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        color: var(--gray);
+        font-size: 0.9rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 992px) {
+        .step:not(:last-child)::after {
+            display: none;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .nav-links {
+            display: none;
+        }
+
+        .mobile-menu {
+            display: block;
+        }
+
+        .hero h1 {
+            font-size: 2rem;
+        }
+
+        .hero p {
+            font-size: 1rem;
+        }
+
+        .btn-outline {
+            margin-left: 0;
+            margin-top: 15px;
+            display: block;
+        }
+    }
+    #privacy-policy {
+  max-width: 900px;
+  margin: 50px auto;
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.05);
+  font-family: Arial, sans-serif;
+  color: #333;
+  line-height: 1.7;
+}
+
+#privacy-policy h1 {
+  font-size: 2em;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #222;
+}
+
+#privacy-policy h2 {
+  font-size: 1.4em;
+  margin-top: 30px;
+  margin-bottom: 10px;
+  color: #444;
+}
+
+#privacy-policy p {
+  margin-bottom: 15px;
+  text-align: justify;
+}
+
+#privacy-policy ul {
+  margin-left: 20px;
+  margin-bottom: 20px;
+  padding-left: 20px;
+}
+
+#privacy-policy ul li {
+  margin-bottom: 10px;
+  list-style-type: disc;
+}
+
+#privacy-policy a {
+  color: #007BFF;
+  text-decoration: none;
+}
+
+#privacy-policy a:hover {
+  text-decoration: underline;
+}
+
+</style>
+<body>
+
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">
+                    <img src="../public/logo.jpg" width="100px" alt="">
+                </a>
+                <ul class="nav-links">
+                    <li><a href="#features">Tools</a></li>
+                    <li><a href="#how-it-works">How It Works</a></li>
+                    <li><a href="#benefits">Benefits</a></li>
+                    <li><a href="#testimonials">Testimonials</a></li>
+                </ul>
+                <div class="mobile-menu">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <div class="overlay"></div>
+            </nav>
+        </div>
+    </header>
+  <div id="privacy-policy">
+    <h1>Privacy Policy</h1>
+    <p>Effective Date: April 3, 2025</p>
+
+    <p>
+      At <strong>ToolISO</strong>, your privacy is very important to us. This Privacy Policy explains how we collect, use, and protect your information when you use our website and services.
+    </p>
+
+    <h2>1. Information We Collect</h2>
+    <p>We do not collect any personally identifiable information unless you voluntarily provide it to us. Most of our tools work entirely within your browser and do not transmit any data to our servers.</p>
+
+    <ul>
+      <li><strong>Usage Data:</strong> We may collect non-personal data such as device type, browser type, language, and how you interact with our site (e.g. pages visited).</li>
+      <li><strong>Cookies:</strong> ToolISO uses cookies to improve your experience. You can choose to disable cookies in your browser settings.</li>
+    </ul>
+
+    <h2>2. How We Use Your Information</h2>
+    <p>We use the limited information we collect to:</p>
+    <ul>
+      <li>Improve our tools and services</li>
+      <li>Analyze usage trends and website performance</li>
+      <li>Fix bugs and improve security</li>
+    </ul>
+
+    <h2>3. Third-Party Services</h2>
+    <p>
+      We may use third-party analytics tools like Google Analytics to understand how visitors use our site. These tools may use cookies or similar technologies to collect data about your behavior anonymously.
+    </p>
+
+    <h2>4. Data Security</h2>
+    <p>
+      We take reasonable steps to protect your data and ensure that our site is secure. However, please be aware that no system is completely foolproof, and we cannot guarantee absolute security.
+    </p>
+
+    <h2>5. Data Retention</h2>
+    <p>
+      Since most of our tools work entirely on the client side, we do not store your files or personal data. If any temporary data is collected, it is deleted automatically after processing.
+    </p>
+
+    <h2>6. Your Rights</h2>
+    <p>You have the right to:</p>
+    <ul>
+      <li>Access any personal data we may have (though usually we don’t store any)</li>
+      <li>Request deletion of your data</li>
+      <li>Opt out of cookies through your browser settings</li>
+    </ul>
+
+    <h2>7. Changes to This Policy</h2>
+    <p>
+      We may update this Privacy Policy from time to time. Changes will be posted on this page with the updated effective date.
+    </p>
+
+    <h2>8. Contact Us</h2>
+    <p>
+      If you have any questions or concerns about our Privacy Policy, please contact us at:
+      <br />
+      <a href="mailto:support@tooliso.com">support@tooliso.com</a>
+    </p>
+
+    <p>Thank you for trusting <strong>ToolISO</strong>.</p>
+  </div>
+ <!-- Footer -->
+ <footer>
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h3>tooliso</h3>
+                <p>Your one-stop solution for free online utility tools. Simple, fast, and reliable.</p>
+                <div class="social-links">
+                    <a href="https://www.pinterest.com/tooliso/"><i class="fab fa-pinterest"></i></a>
+                    <a href=""><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.linkedin.com/in/tooliso-pro-9a111735a/"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://www.quora.com/profile/Tooliso"><i class="fab fa-quora"></i></a>
+                    <a href="https://www.reddit.com/user/Toolisopro/"><i class="fab fa-reddit"></i></a>
+                    <a href="https://www.youtube.com/@Tooliso100"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h3>Tools</h3>
+                <ul class="footer-links">
+                    <li><a href="#">QR Code Generator</a></li>
+                    <li><a href="#">Barcode Scanner</a></li>
+                    <li><a href="#">File Converter</a></li>
+                    <li><a href="#">Image Compressor</a></li>
+                    <li><a href="#">Password Generator</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Company</h3>
+                <ul class="footer-links">
+                    <li><a href="/about.html">About Us</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="/contact.html">Contact</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Support</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Feedback</a></li>
+                    <li><a href="#">Report an Issue</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 Tooliso. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+</body>
+</html>
