@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KnowledgeCheck - MCQ Generator</title>
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-light: #4895ef;
+            --secondary: #3f37c9;
+            --dark: #1a1a2e;
+            --light: #f8f9fa;
+            --success: #4cc9f0;
+            --danger: #f72585;
+            --border-radius: 12px;
+            --box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.5;
+            color: var(--dark);
+            background-color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .input-section {
+            background: #fff;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        .description {
+            color: #64748b;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: var(--border-radius);
+            font-family: inherit;
+            font-size: 0.95rem;
+            resize: vertical;
+            transition: var(--transition);
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+        }
+
+        .btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius);
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn:hover {
+            background-color: var(--secondary);
+            transform: translateY(-1px);
+        }
+
+        .btn:disabled {
+            background-color: #94a3b8;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            display: none;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(67, 97, 238, 0.1);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 1rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Modal Styles */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            width: 90%;
+            max-width: 700px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #64748b;
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        /* Quiz Styles */
+        .question-counter {
+            color: var(--primary);
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .question {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .options {
+            display: grid;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+        }
+
+        .option {
+            padding: 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .option:hover {
+            background-color: #f8fafc;
+            border-color: var(--primary-light);
+        }
+
+        .option.selected {
+            background-color: #f0f4ff;
+            border-color: var(--primary);
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        /* Results Styles */
+        .results {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .results-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .score {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 1.5rem 0;
+        }
+
+        .score-high {
+            color: var(--success);
+        }
+
+        .score-low {
+            color: var(--danger);
+        }
+
+        .feedback {
+            background-color: #f8fafc;
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 2rem;
+        }
+
+        .feedback-high {
+            border-left: 4px solid var(--success);
+        }
+
+        .feedback-low {
+            border-left: 4px solid var(--danger);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .input-section {
+                padding: 1.5rem;
+            }
+            
+            .modal-content {
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="input-section">
+            <h2 class="title">KnowledgeCheck</h2>
+            <p class="description">Enter the topics you've learned to generate a personalized MCQ quiz that tests your understanding.</p>
+            
+            <textarea id="topicsInput" placeholder="Example:
+- JavaScript fundamentals (variables, functions, loops)
+- CSS concepts (flexbox, grid, animations)
+- React hooks (useState, useEffect)
+- API integration (fetch, async/await)
+..."></textarea>
+            
+            <button id="generateBtn" class="btn">
+                Generate Quiz
+            </button>
+        </div>
+        
+        <div class="loading" id="loadingIndicator">
+            <div class="spinner"></div>
+            <p>Generating your personalized quiz...</p>
+        </div>
+    </div>
+
+    <div class="modal" id="quizModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">KnowledgeCheck Quiz</h3>
+                <button class="close-btn" id="closeModal">&times;</button>
+            </div>
+            
+            <div class="modal-body">
+                <div id="quizContainer">
+                    <!-- Quiz content will be inserted here -->
+                </div>
+                
+                <div id="resultsContainer" class="results">
+                    <h3 class="results-title">Quiz Results</h3>
+                    <div class="score" id="scoreDisplay"></div>
+                    
+                    <div class="feedback" id="feedback">
+                        <p id="feedbackText"></p>
+                    </div>
+                    
+                    <button class="btn" id="retakeBtn">Take Another Quiz</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // DOM elements
+        const topicsInput = document.getElementById('topicsInput');
+        const generateBtn = document.getElementById('generateBtn');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        const quizModal = document.getElementById('quizModal');
+        const closeModal = document.getElementById('closeModal');
+        const quizContainer = document.getElementById('quizContainer');
+        const resultsContainer = document.getElementById('resultsContainer');
+        const scoreDisplay = document.getElementById('scoreDisplay');
+        const feedbackText = document.getElementById('feedbackText');
+        const retakeBtn = document.getElementById('retakeBtn');
+        
+        // API key
+        const apiKey = 'AIzaSyC_yi-NBnNP4KSNEt0ak3l-_26oSn3ALCk';
+        
+        // Quiz variables
+        let questions = [];
+        let currentQuestionIndex = 0;
+        let userAnswers = [];
+        let score = 0;
+        
+        // Event listeners
+        generateBtn.addEventListener('click', generateQuiz);
+        closeModal.addEventListener('click', closeQuizModal);
+        retakeBtn.addEventListener('click', resetQuiz);
+        
+        // Generate quiz using Gemini API
+        async function generateQuiz() {
+            const topics = topicsInput.value.trim();
+            
+            if (!topics) {
+                alert('Please enter the topics you want to be tested on.');
+                return;
+            }
+            
+            generateBtn.disabled = true;
+            loadingIndicator.style.display = 'flex';
+            
+            try {
+                const prompt = `Generate a JSON object with 25 multiple-choice questions about these topics: ${topics}. Format:
+                {
+                    "questions": [
+                        {
+                            "question": "Question text",
+                            "options": ["Option 1", "Option 2", "Option 3", "Option 4"],
+                            "correctAnswer": 0 // index of correct option
+                        }
+                    ]
+                }
+                Include questions of varying difficulty covering all mentioned topics and ensure the correct answer is always one of the options remeber i only need json no extra text return json only even font say here is json .`;
+                
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [{
+                                text: prompt
+                            }]
+                        }]
+                    })
+                });
+                
+                const data = await response.json();
+                const responseText = data.candidates[0].content.parts[0].text;
+                const jsonStart = responseText.indexOf('{');
+                const jsonEnd = responseText.lastIndexOf('}') + 1;
+                const jsonString = responseText.slice(jsonStart, jsonEnd);
+                
+                const quizData = JSON.parse(jsonString);
+                questions = quizData.questions.slice(0, 25); // Ensure we only take 25 questions
+                userAnswers = new Array(questions.length).fill(null);
+                
+                showQuizModal();
+                displayQuestion();
+                
+            } catch (error) {
+                console.error('Error generating quiz:', error);
+                alert('Failed to generate quiz. Please try again later.');
+            } finally {
+                generateBtn.disabled = false;
+                loadingIndicator.style.display = 'none';
+            }
+        }
+        
+        // Show quiz modal
+        function showQuizModal() {
+            quizModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        // Close quiz modal
+        function closeQuizModal() {
+            quizModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Display current question
+        function displayQuestion() {
+            const question = questions[currentQuestionIndex];
+            
+            quizContainer.innerHTML = `
+                <div class="question-counter">Question ${currentQuestionIndex + 1} of ${questions.length}</div>
+                <div class="question">${question.question}</div>
+                <div class="options" id="optionsContainer"></div>
+                <div class="navigation">
+                    <button class="btn" id="prevBtn" ${currentQuestionIndex === 0 ? 'disabled' : ''}>Previous</button>
+                    <button class="btn" id="nextBtn">${currentQuestionIndex === questions.length - 1 ? 'Submit' : 'Next'}</button>
+                </div>
+            `;
+            
+            const optionsContainer = document.getElementById('optionsContainer');
+            question.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option';
+                if (userAnswers[currentQuestionIndex] === index) {
+                    optionElement.classList.add('selected');
+                }
+                optionElement.textContent = `${String.fromCharCode(65 + index)}. ${option}`;
+                optionElement.addEventListener('click', () => selectAnswer(index));
+                optionsContainer.appendChild(optionElement);
+            });
+            
+            // Add event listeners to the newly created buttons
+            document.getElementById('prevBtn').addEventListener('click', showPreviousQuestion);
+            document.getElementById('nextBtn').addEventListener('click', showNextQuestion);
+        }
+        
+        // Select answer
+        function selectAnswer(index) {
+            const options = document.querySelectorAll('.option');
+            options.forEach(opt => opt.classList.remove('selected'));
+            options[index].classList.add('selected');
+            userAnswers[currentQuestionIndex] = index;
+        }
+        
+        // Show previous question
+        function showPreviousQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                displayQuestion();
+            }
+        }
+        
+        // Show next question or submit
+        function showNextQuestion() {
+            if (userAnswers[currentQuestionIndex] === null) {
+                alert('Please select an answer before proceeding.');
+                return;
+            }
+            
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                displayQuestion();
+            } else {
+                calculateResults();
+            }
+        }
+        
+        // Calculate and display results
+        function calculateResults() {
+            score = 0;
+            questions.forEach((q, i) => {
+                if (userAnswers[i] === q.correctAnswer) score++;
+            });
+            
+            const percentage = Math.round((score / questions.length) * 100);
+            
+            quizContainer.style.display = 'none';
+            resultsContainer.style.display = 'block';
+            
+            scoreDisplay.textContent = `${score}/${questions.length} (${percentage}%)`;
+            
+            if (percentage >= 60) {
+                scoreDisplay.classList.add('score-high');
+                scoreDisplay.classList.remove('score-low');
+                feedback.classList.add('feedback-high');
+                feedback.classList.remove('feedback-low');
+                feedbackText.textContent = 'Great job! You have a solid understanding of these topics.';
+            } else {
+                scoreDisplay.classList.add('score-low');
+                scoreDisplay.classList.remove('score-high');
+                feedback.classList.add('feedback-low');
+                feedback.classList.remove('feedback-high');
+                feedbackText.textContent = 'Keep practicing! Review these topics and try again.';
+            }
+        }
+        
+        // Reset quiz
+        function resetQuiz() {
+            currentQuestionIndex = 0;
+            userAnswers = new Array(questions.length).fill(null);
+            resultsContainer.style.display = 'none';
+            quizContainer.style.display = 'block';
+            displayQuestion();
+        }
+    </script>
+</body>
+</html>
